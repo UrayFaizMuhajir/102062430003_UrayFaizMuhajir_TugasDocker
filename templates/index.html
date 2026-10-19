@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data Mahasiswa</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 860px; margin: 40px auto; padding: 0 16px; color: #222; }
+    h1 { margin-bottom: 4px; }
+    .info { color: #555; margin-top: 0; }
+    form.add { display: flex; gap: 8px; flex-wrap: wrap; margin: 20px 0; }
+    input { padding: 8px; border: 1px solid #bbb; border-radius: 4px; }
+    button { padding: 8px 14px; border: 1px solid #888; background: #f4f4f4; border-radius: 4px; cursor: pointer; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background: #eee; }
+  </style>
+</head>
+<body>
+  <h1>Data Mahasiswa</h1>
+  <p class="info">Flask + MySQL dengan Docker Compose di Azure VM (container: {{ host }})</p>
+  <form class="add" method="post" action="{{ url_for('tambah') }}">
+    <input name="nama" placeholder="Nama" required>
+    <input name="nim" placeholder="NIM" required>
+    <input name="prodi" placeholder="Program Studi" required>
+    <button type="submit">Tambah</button>
+  </form>
+  <table>
+    <tr><th>ID</th><th>Nama</th><th>NIM</th><th>Prodi</th><th>Dibuat (UTC)</th><th></th></tr>
+    {% for m in data %}
+    <tr>
+      <td>{{ m.id }}</td><td>{{ m.nama }}</td><td>{{ m.nim }}</td><td>{{ m.prodi }}</td><td>{{ m.created_at }}</td>
+      <td><form method="post" action="{{ url_for('hapus', mid=m.id) }}"><button>Hapus</button></form></td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6">Belum ada data.</td></tr>
+    {% endfor %}
+  </table>
+</body>
+</html>
